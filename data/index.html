@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>Server ESP8266</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'charset='UTF-8' />
+    <link rel="stylesheet" type="text/css" href="w3.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
+
+    <div style="background-image: url('Fond.jpg'); background-repeat: no-repeat; background-size: cover; padding-bottom: 25%; margin-top: -10%;padding-top: 20%;margin-left: -10%;margin-bottom: -7%;">
+        <div class = "w3-center vertical-align: middle" style="padding-left: 10%;">
+            <h1 style ="font-family:'Courier New', Courier, monospace; color: sandybrown;font-weight: 900;font-size: 100px;margin-top: 0;">Jardinière connectée</h1>
+            <h2 style ="font-family:'Courier New', Courier, monospace; color: white;font-weight: bolder;margin-top: 0;">with ESP8266</h2>
+        </div>
+    </div>
+</head>
+
+<body class="w3-animate-opacity" style="background-color: seagreen;">
+
+    <div class="w3-margin w3-center w3-card w3-padding-24" style="background-color: bisque;">
+        <button id="ArrosageBtn" onclick="onArrosage()" class="w3-button w3-xlarge w3-ripple w3-wide" style="width:48%; background-color:cornflowerblue; color: white;"><span id="Arrosage">Arroser</span></button>
+        <button id="EclairageBtn" onclick="onEclairage()" class="w3-button w3-xlarge w3-ripple w3-wide" style="width:48%; background-color: gold; color: white;"><span id="Eclairage">Eclairer</button>
+    </div>
+
+    <div class = "w3-card" style = "margin-left: 80%;">
+        <p style="color: bisque;text-align: center;">Température Air</p>
+        <p style="color: bisque;text-align: center;"><span id="valeurTemperatureAir">-271 °C</span></p>
+    </div>
+
+    <div class ="container">
+        <div class = "card">
+            <div class = "box">
+                <div class="percent">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" id="TemperatureAir"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2><span id="valeurTemperatureAir">?</span><span>°C</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Température</h2>
+                <h2 class="text1">Mesurée</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2><span id="valeurTemperatureAirMeteo">?</span><span>°C</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Température</h2>
+                <h2 class="text1">Météo</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2><span id="valeurTemperatureAirRessentie">?</span><span>°C</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Température</h2>
+                <h2 class="text1">Ressentie</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class ="container">
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: -20px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurHumiditeAir">?</span><span>%</span></h2>
+                    </div>
+                </div>
+                <h2 class="text" >Humidité</h2>
+                <h2 class="text1">Mesurée</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: -20px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurHumiditeAirMeteo">?</span><span>%</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Humidité</h2>
+                <h2 class="text1">Météo</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: -20px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke: chocolate; stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurHumiditeSol">?</span><span>%</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Humidité</h2>
+                <h2 class="text1">Du sol</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class ="container" style="margin-top: 5%;">
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: -5px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50" ></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100); stroke:yellowgreen;"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurNebulositeNow">?</span><span>%</span></h2>
+                    </div>
+                </div>
+                <h2 class="text" >Nébulosité</h2>
+                <h2 class="text1">Actuelle</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 40px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100); stroke:darkgray;"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurPressionNow">?</span><span>hPa</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Pression atmosphérique</h2>
+                <h2 class="text1">Actuelle</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 30px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke: royalblue; stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurPluieNow">?</span><span>mm</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Volume de précipitation</h2>
+                <h2 class="text1">Actuel</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 20px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke: violet; stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurWindNow">?</span><span>m/s</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Vitesse des vents</h2>
+                <h2 class="text1">Actuelle</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class ="container">
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: -5px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100); stroke:yellowgreen;"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurNebulositeDay">?</span><span>%</span></h2>
+                    </div>
+                </div>
+                <h2 class="text" >Nébulosité</h2>
+                <h2 class="text1">Quotidienne</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 40px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke-dashoffset: calc(320 - (320 * 60) / 100); stroke:darkgray;"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurPressionDay">?</span><span>hPa</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Pression atmosphérique</h2>
+                <h2 class="text1">Qotidienne</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 30px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke: royalblue; stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurPluieDay">?</span><span>mm</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Volume de précipitation</h2>
+                <h2 class="text1">Quotidien</h2>
+            </div>
+        </div>
+        <div class = "card">
+            <div class = "box">
+                <div class="percent" style="margin-left: 20px;">
+                    <svg>
+                        <circle cx="50" cy="50" r="50"></circle>
+                        <circle cx="50" cy="50" r="50" style="stroke:violet; stroke-dashoffset: calc(320 - (320 * 60) / 100);"></circle>
+                    </svg>
+                    <div class="number">
+                        <h2 style="margin-left: 5px;"><span id="valeurWindDay">?</span><span>m/s</span></h2>
+                    </div>
+                </div>
+                <h2 class="text">Vitesse des vents</h2>
+                <h2 class="text1">Quotidienne</h2>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer style="background: darkslategrey; background-size: cover; padding-bottom: 10%; align-items: center;">
+    <div class="w3-margin w3-center">
+        <i><a href="SignatureName" style="text-decoration: none; color: bisque;">by Guenet Maxime</a></i>
+    </div>
+    <div class="w3-center" >
+        <a href="https://www.linkedin.com/in/maximeguenet" style="align-items: center; color: bisque;">Mon profile LinkedIn</a>
+    </div>
+</footer>
